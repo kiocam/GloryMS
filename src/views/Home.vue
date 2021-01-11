@@ -67,21 +67,21 @@ export default {
     Header,
     Footer,
     Hero,
-    StatusBar
+    StatusBar,
   },
 
   data() {
     return {
       pageData: {},
-      features: {}
+      features: {},
     };
   },
 
   async created() {
-    let { data } = await axios.get("http://161.35.134.233/pages?id_eq=1");
+    let { data } = await axios.get("https://j-camerondb.me/pages?id_eq=1");
     this.pageData = data[0];
     this.features = data[0].feats.offers;
-  }
+  },
 };
 </script>
 
