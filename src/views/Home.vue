@@ -1,6 +1,8 @@
 <template>
   <div>
     <Header></Header>
+    <!-- login-modal -->
+    <AuthModal></AuthModal>
     <!-- Hero component -->
     <Hero></Hero>
     <!-- statusbar component -->
@@ -63,12 +65,13 @@
 </template>
 
 <script lang="ts">
-import Vue from 'vue'
+import Vue from "vue";
 import Header from "../components/layouts/Header.vue";
 import Footer from "../components/layouts/Footer.vue";
 import Hero from "../components/UI/Hero.vue";
 import axios from "axios";
 import StatusBar from "../components/UI/StatusBar.vue";
+import AuthModal from "../components/auth-modal.vue";
 
 export default Vue.extend({
   components: {
@@ -76,39 +79,45 @@ export default Vue.extend({
     Footer,
     Hero,
     StatusBar,
+    AuthModal,
   },
-  props: {
-  },
+  props: {},
 
   data() {
     return {
       pageData: {},
       features: {},
-      accounts: '',
-      characters: '',
-      playersOnlineData: 0
+      accounts: "",
+      characters: "",
+      playersOnlineData: 0,
     };
   },
 
   async created() {
-    // fetching the content for the site, from cms strapi 
+    // fetching the content for the site, from cms strapi
     let { data } = await axios.get("https://j-camerondb.me/pages?id_eq=1");
     this.pageData = data[0];
     this.features = data[0].feats.offers;
 
     // get the amount of players online
-    const playersOnline = await axios.get('https://api.j-camerondb.me/players/online')
-    this.playersOnlineData = Object.values(playersOnline.data[0])[0]
+    const playersOnline = await axios.get(
+      "https://api.j-camerondb.me/players/online"
+    );
+    this.playersOnlineData = Object.values(playersOnline.data[0])[0];
 
     //get amount of accounts created
-    const accountsCreated = await axios.get('https://api.j-camerondb.me/players/accounts')
-    this.accounts = Object.values(accountsCreated.data[0])[0]
+    const accountsCreated = await axios.get(
+      "https://api.j-camerondb.me/players/accounts"
+    );
+    this.accounts = Object.values(accountsCreated.data[0])[0];
 
     //get amount of characters created
-    const charactersCreated = await axios.get('https://api.j-camerondb.me/characters/created')
-    this.characters = Object.values(charactersCreated.data[0])[0]
+    const charactersCreated = await axios.get(
+      "https://api.j-camerondb.me/characters/created"
+    );
+    this.characters = Object.values(charactersCreated.data[0])[0];
   },
-})
+});
 </script>
 
 
