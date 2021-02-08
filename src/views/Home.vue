@@ -1,8 +1,6 @@
 <template>
   <div>
     <Header></Header>
-    <!-- login-modal -->
-    <AuthModal></AuthModal>
     <!-- Hero component -->
     <Hero></Hero>
     <!-- statusbar component -->
@@ -71,7 +69,6 @@ import Footer from "../components/layouts/Footer.vue";
 import Hero from "../components/UI/Hero.vue";
 import axios from "axios";
 import StatusBar from "../components/UI/StatusBar.vue";
-import AuthModal from "../components/auth-modal.vue";
 
 export default Vue.extend({
   components: {
@@ -79,7 +76,6 @@ export default Vue.extend({
     Footer,
     Hero,
     StatusBar,
-    AuthModal,
   },
   props: {},
 

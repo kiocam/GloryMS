@@ -21,7 +21,11 @@
         <div class="uk-navbar-center-right">
           <div>
             <ul class="uk-navbar-nav">
-              <li><a href="#downloads" uk-scroll>Downloads</a></li>
+              <li>
+                <router-link to="/" v-scroll-to="'#downloads'"
+                  >Downloads</router-link
+                >
+              </li>
               <li><router-link to="/">Rankings</router-link></li>
               <li><router-link to="/">Vote</router-link></li>
             </ul>
