@@ -1,17 +1,33 @@
 <template>
   <div class="Login-page">
     <Header></Header>
-    <section class="uk-section">
-      <div class="uk-child-width-1-2@s uk-grid-collapse uk-text-center" uk-grid>
-        <div>
-          <div class="uk-tile uk-tile-default"></div>
-        </div>
-        <div>
-          <div class="uk-tile uk-tile-muted">
-            <p class="uk-h4">Muted</p>
+    <section class="register-sec uk-section uk-container-small">
+      <form @submit.prevent="pressed">
+        <fieldset class="uk-fieldset">
+          <legend class="uk-legend">Register for Glory</legend>
+
+          <div class="uk-margin">
+            <input
+              class="uk-input"
+              type="email"
+              v-model="email"
+              placeholder="@ E-mail"
+            />
           </div>
-        </div>
-      </div>
+          <div class="uk-margin">
+            <input
+              class="uk-input"
+              type="password"
+              v-model="password"
+              placeholder="Password"
+            />
+          </div>
+        </fieldset>
+        <button class="uk-button uk-button-primary" type="submit">
+          Register
+        </button>
+      </form>
+      <WarningAlert v-if="error"></WarningAlert>
     </section>
     <Footer></Footer>
   </div>
@@ -21,11 +37,37 @@
 import Vue from "vue";
 import Header from "../components/layouts/Header.vue";
 import Footer from "../components/layouts/Footer.vue";
+import WarningAlert from "../components/UI/warning-alert.vue";
+import firebase from "firebase/app";
+import "firebase/auth";
 
 export default Vue.extend({
   components: {
     Header,
     Footer,
+    WarningAlert,
+  },
+  data() {
+    return {
+      email: "",
+      password: "",
+      error: false,
+    };
+  },
+
+  methods: {
+    async pressed() {
+      try {
+        const user = firebase
+          .auth()
+          .createUserWithEmailAndPassword(this.email, this.password);
+        console.log(user);
+        this.$router.replace({ path: "dashboard" });
+      } catch (err) {
+        this.error != this.error;
+        console.log(err);
+      }
+    },
   },
 });
 </script>
@@ -34,5 +76,13 @@ export default Vue.extend({
 .header-default {
   position: relative !important;
   background-color: #2f3640;
+}
+
+.uk-button {
+  text-align: center;
+  margin: 0 auto;
+}
+.register-sec {
+  margin: 0 auto;
 }
 </style>

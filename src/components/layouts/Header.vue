@@ -9,15 +9,25 @@
           <div>
             <ul class="uk-navbar-nav">
               <li class=""><router-link to="/">Home</router-link></li>
-              <li><router-link to="/register">Register</router-link></li>
-              <li>
-                <a class="" href="#auth_modal" uk-toggle>Login</a>
+              <li v-if="loggedIn">
+                <router-link to="/dashboard">Dashboard</router-link>
+              </li>
+              <li v-else>
+                <router-link to="/register">Register</router-link>
               </li>
             </ul>
           </div>
         </div>
-        <img class="image" src="../../assets/maple-leaf.png" alt="logo img" />
-        <a class="uk-navbar-item uk-logo" href="">GloryMS</a>
+
+        <router-link class="uk-navbar-item uk-logo" to="/"
+          ><img
+            class="image"
+            src="../../assets/maple-leaf.png"
+            alt="logo img"
+          />
+          GloryMS</router-link
+        >
+
         <div class="uk-navbar-center-right">
           <div>
             <ul class="uk-navbar-nav">
@@ -26,8 +36,24 @@
                   >Downloads</router-link
                 >
               </li>
-              <li><router-link to="/">Rankings</router-link></li>
               <li><router-link to="/">Vote</router-link></li>
+              <li class="btn-group">
+                <button
+                  @click="signOut"
+                  v-if="loggedIn"
+                  class="uk-button uk-button-small uk-button-danger"
+                >
+                  logout
+                </button>
+                <!-- <button v-else class="uk-button success-btn">login</button> -->
+                <a
+                  v-else
+                  class="uk-button success-btn"
+                  href="#auth_modal"
+                  uk-toggle
+                  >Login</a
+                >
+              </li>
             </ul>
           </div>
         </div>
@@ -38,9 +64,36 @@
 
 <script lang="ts">
 import Vue from "vue";
+import firebase from "firebase/app";
+import "firebase/auth";
 
 export default Vue.extend({
   components: {},
+  data() {
+    return {
+      loggedIn: false,
+    };
+  },
+  methods: {
+    async signOut() {
+      try {
+        const data = await firebase.auth().signOut();
+        console.log(data);
+        this.$router.replace({ path: "/" });
+      } catch (err) {
+        console.log(err);
+      }
+    },
+  },
+  created() {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.loggedIn = true;
+      } else {
+        this.loggedIn = false;
+      }
+    });
+  },
 });
 </script>
 
@@ -49,12 +102,25 @@ header {
   z-index: 10;
 }
 
-.uk-navbar-nav li a {
-  font-size: 1.5em;
-  margin: 0 10px;
-  font-weight: bold;
+.uk-navbar-nav > li > a {
+  font-size: 1.5em !important;
 }
+
 .image {
-  width: 55px;
+  width: 75px;
+  padding: 10px;
+}
+
+.btn-group {
+  align-items: center;
+  margin-top: 5%;
+  margin-left: 40px;
+}
+
+.success-btn {
+  background-color: transparent;
+  border: 2px solid #00b894;
+  color: #fff;
+  min-height: unset;
 }
 </style>
