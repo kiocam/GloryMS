@@ -1,7 +1,7 @@
 <template>
-  <header class="header-default uk-position-top">
+  <header class="uk-container header-default uk-position-top">
     <nav
-      class="uk-navbar-container uk-navbar-transparent uk-padding-large"
+      class="main-nav uk-navbar-container uk-navbar-transparent uk-padding-large"
       uk-navbar
     >
       <div class="uk-navbar-center">
@@ -9,7 +9,7 @@
           <div>
             <ul class="uk-navbar-nav">
               <li class=""><router-link to="/">Home</router-link></li>
-              <li v-if="loggedIn">
+              <li v-if="isUserAuth">
                 <router-link to="/dashboard">Dashboard</router-link>
               </li>
               <li v-else>
@@ -36,11 +36,16 @@
                   >Downloads</router-link
                 >
               </li>
-              <li><router-link to="/">Vote</router-link></li>
+              <li>
+                <a
+                  href="https://gtop100.com/topsites/MapleStory/sitedetails/Glory-Maple-99084"
+                  >Vote</a
+                >
+              </li>
               <li class="btn-group">
                 <button
                   @click="signOut"
-                  v-if="loggedIn"
+                  v-if="isUserAuth"
                   class="uk-button uk-button-small uk-button-danger"
                 >
                   logout
@@ -59,40 +64,31 @@
         </div>
       </div>
     </nav>
+    <!-- mobile -->
+    <SideBar class="mobile-nav"></SideBar>
   </header>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
-import firebase from "firebase/app";
-import "firebase/auth";
+import SideBar from "../UI/sideBar.vue";
+import { mapGetters, mapActions } from "vuex";
 
 export default Vue.extend({
-  components: {},
-  data() {
-    return {
-      loggedIn: false,
-    };
+  components: {
+    SideBar,
   },
+
   methods: {
-    async signOut() {
-      try {
-        const data = await firebase.auth().signOut();
-        console.log(data);
-        this.$router.replace({ path: "/" });
-      } catch (err) {
-        console.log(err);
-      }
+    ...mapActions(["signOutAction"]),
+
+    signOut() {
+      this.signOutAction();
     },
   },
-  created() {
-    firebase.auth().onAuthStateChanged((user) => {
-      if (user) {
-        this.loggedIn = true;
-      } else {
-        this.loggedIn = false;
-      }
-    });
+
+  computed: {
+    ...mapGetters(["getUser", "isUserAuth"]),
   },
 });
 </script>
@@ -103,7 +99,8 @@ header {
 }
 
 .uk-navbar-nav > li > a {
-  font-size: 1.5em !important;
+  font-size: 1.5rem !important;
+  margin-right: 70px;
 }
 
 .image {
@@ -113,8 +110,8 @@ header {
 
 .btn-group {
   align-items: center;
-  margin-top: 5%;
-  margin-left: 40px;
+  margin-top: 3%;
+  //margin-left: 20px;
 }
 
 .success-btn {
@@ -122,5 +119,41 @@ header {
   border: 2px solid #00b894;
   color: #fff;
   min-height: unset;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .main-nav {
+    display: none;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+  .main-nav {
+    display: none;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+  .main-nav {
+    display: none;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+  .main-nav {
+    display: flex;
+  }
+
+  .mobile-nav {
+    display: none;
+  }
 }
 </style>
