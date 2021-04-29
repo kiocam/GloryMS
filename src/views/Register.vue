@@ -54,7 +54,7 @@ import Header from "../components/layouts/Header.vue";
 import Footer from "../components/layouts/Footer.vue";
 import WarningAlert from "../components/UI/warning-alert.vue";
 //import firebase from "../firebase/firebase";
-import { mapActions, mapGetters } from "vuex";
+import { mapActions } from "vuex";
 
 //const db = firebase.firestore();
 
@@ -74,9 +74,9 @@ export default Vue.extend({
     };
   },
 
-  computed: {
-    ...mapGetters(["getUser", "isUserAuth"]),
-  },
+  // computed: {
+  //   ...mapGetters(["getUser", "isUserAuth"]),
+  // },
 
   methods: {
     ...mapActions(["registerAction"]),
@@ -116,23 +116,8 @@ export default Vue.extend({
         displayName: this.username,
       });
       this.resetInput();
+      this.$router.push({ name: "Home" });
     },
-
-    // addUsername() {
-    //   // Add a new document in collection "cities"
-    //   db.collection("usernames")
-    //     .doc(this.getUser.uid)
-    //     .set({
-    //       name: this.username,
-    //       email: this.getUser.email,
-    //     })
-    //     .then(() => {
-    //       console.log("Document successfully written!");
-    //     })
-    //     .catch((error) => {
-    //       console.error("Error writing document: ", error);
-    //     });
-    // },
 
     resetInput() {
       this.username = "";
