@@ -10,7 +10,7 @@
             <input
               class="uk-input"
               type="email"
-              v-model="email"
+              v-model="Email"
               placeholder="@ E-mail"
             />
           </div>
