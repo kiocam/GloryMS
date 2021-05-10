@@ -10,7 +10,7 @@
             <input
               class="uk-input"
               type="email"
-              v-model="Email"
+              v-model="email"
               placeholder="@ E-mail"
             />
           </div>
@@ -50,6 +50,7 @@
 
 <script lang="ts">
 import Vue from "vue";
+import axios from "axios";
 import Header from "../components/layouts/Header.vue";
 import Footer from "../components/layouts/Footer.vue";
 import WarningAlert from "../components/UI/warning-alert.vue";
@@ -73,10 +74,6 @@ export default Vue.extend({
       error: false,
     };
   },
-
-  // computed: {
-  //   ...mapGetters(["getUser", "isUserAuth"]),
-  // },
 
   methods: {
     ...mapActions(["registerAction"]),
@@ -115,6 +112,7 @@ export default Vue.extend({
         password: this.password,
         displayName: this.username,
       });
+      this.postData(this.username, this.email, this.password);
       this.resetInput();
       this.$router.push({ name: "Home" });
     },
@@ -123,6 +121,18 @@ export default Vue.extend({
       this.username = "";
       this.email = "";
       this.password = "";
+    },
+
+    postData(username, email, password) {
+      axios
+        .post("http://localhost:3306/register", {
+          username,
+          email,
+          password,
+        })
+        .then((error) => {
+          console.log(error);
+        });
     },
   },
 });
