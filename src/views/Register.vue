@@ -125,7 +125,7 @@ export default Vue.extend({
 
     postData(username, email, password) {
       axios
-        .post("http://api.j-camerondb.me/register", {
+        .post("https://api.j-camerondb.me/register", {
           username,
           email,
           password,
