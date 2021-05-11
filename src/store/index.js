@@ -13,8 +13,8 @@ const initialState = () => {
   return { user: null, errors: null}
 }
 export default new Vuex.Store({
-  plugins: [createPersistedState],
   state: initialState(),
+  plugins: [createPersistedState()],
   mutations: mutations,
   actions: actions,
   getters: getters
