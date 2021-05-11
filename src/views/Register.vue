@@ -92,6 +92,15 @@ export default Vue.extend({
       } else if (/.+@.+/.test(this.email) != true) {
         this.validationErrors.push("<strong>E-mail</strong> must be valid.");
       }
+
+      // user name validation
+      if (!this.username) {
+        this.validationErrors.push(
+          "<strong>username</strong> cannot be empty."
+        );
+      } else if (this.username.length < 4) {
+        this.validationErrors.push("<strong>username</strong> is too short.");
+      }
       // password validation
       if (!this.password) {
         this.validationErrors.push("<strong>Password</strong> cannot be empty");
