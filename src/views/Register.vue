@@ -98,7 +98,7 @@ export default Vue.extend({
         this.validationErrors.push(
           "<strong>username</strong> cannot be empty."
         );
-      } else if (this.username.length < 4) {
+      } else if (this.username.length < 5) {
         this.validationErrors.push("<strong>username</strong> is too short.");
       }
       // password validation
